@@ -80,3 +80,11 @@ variable "vm_subnet_id" {
 variable "security_group_id" {
   description = "ID of the security group to allow management access."
 }
+
+variable "vault_addr" {
+  description = "URL of the Vault cluster."
+}
+
+variable "vault_app_token" {
+  description = "Service token with the read secret policy"
+}

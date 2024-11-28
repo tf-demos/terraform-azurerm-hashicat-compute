@@ -92,7 +92,6 @@ resource "azurerm_network_interface_security_group_association" "catapp-nic-sg-a
 # Add execute permissions to our scripts.
 # Run the deploy_app.sh script.
 
-################## UNCOMMENT #####################
 resource "null_resource" "configure-cat-app" {
   depends_on = [
     azurerm_linux_virtual_machine.catapp,
@@ -122,7 +121,10 @@ resource "null_resource" "configure-cat-app" {
       "sudo systemctl start apache2",
       "sudo chown -R ${var.admin_username}:${var.admin_username} /var/www/html",
       "chmod +x *.sh",
-      "PLACEHOLDER=${var.placeholder} WIDTH=${var.width} HEIGHT=${var.height} PREFIX=${var.prefix} ./deploy_app.sh",
+      "sudo apt -y install jq",
+      "export response=$(curl -H 'X-Vault-Token: ${var.vault_app_token}' -H 'X-Vault-Namespace: admin/' -X GET ${var.vault_addr}/v1/secrets/data/example-secret)",
+      "export data=$(echo $response | jq '.data.data')",
+      "PLACEHOLDER=${var.placeholder} WIDTH=${var.width} HEIGHT=${var.height} PREFIX=${var.prefix} SECRET=$data ./deploy_app.sh",
       "sudo apt -y install cowsay",
       "cowsay Mooooooooooo!",
     ]
