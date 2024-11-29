@@ -14,7 +14,10 @@ cat << EOM > /var/www/html/index.html
   <!-- BEGIN -->
   <center><img src="http://${PLACEHOLDER}/${WIDTH}/${HEIGHT}"></img></center>
   <center><h2>Meow World!</h2></center>
-  Welcome to ${PREFIX}'s app. Replace this text with your own. 
+  Welcome to ${PREFIX}'s app. This is an example web app in Apache. 
+
+  <center><h2>Secret retrieved from Vault:</h2></center>
+  ${SECRET}
   <!-- END -->
   
   </div>
